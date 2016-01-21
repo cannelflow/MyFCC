@@ -3,7 +3,7 @@ first element in the array that passes a truth test (second argument).*/
 /*This bonfire wants us create a function that takes two arguments; The first will be an array, 
 and the second a will be truth test 
 (a function that returns true/false). Our function must return the first item in the array that passes the test.*/
-
+Method 1
 function find(arr, test) {
     var result;
  arr.some(function (currentValue){
@@ -15,3 +15,13 @@ function find(arr, test) {
     return result;
 }
 find([1, 2, 3, 4], function(num){ return num % 2 === 0; });
+
+Method 2
+
+function find(array, testFunction) {
+    for (var i = 0; i < array.length; i++) {
+        if (testFunction(array[i])) {
+            return array[i];
+        }
+    }
+}
