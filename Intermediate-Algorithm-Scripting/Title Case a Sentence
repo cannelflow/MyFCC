@@ -1,0 +1,27 @@
+//1.
+function titleCase(str) {
+
+  var loc = str.toLowerCase().split(" ");
+  var newArray = []; 
+
+  for(i = 0; i < loc.length; i++) {
+     newArray[i] = loc[i].charAt(0).toUpperCase() + loc[i].substring(1);
+  }
+  return newArray.join(" ");
+}
+
+titleCase("I'm a little tea pot");
+//2.
+function titleCase(str) {
+  var test=str.split(" ");
+  for(var i=0;i<test.length;i++){
+    var placeHolder=test[i];
+    var upLatter=placeHolder.charAt(0).toUpperCase();
+    var restLatter=placeHolder.slice(1,placeHolder.length).toLowerCase();
+    test[i]=upLatter.concat(restLatter);
+  }
+  str=test.join(" ");
+  return str;
+}
+
+titleCase("I'm a little tea pot");
