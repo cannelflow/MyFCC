@@ -1,3 +1,4 @@
+//1.
 function factorialize(num) {
   if(num===0||num===1){
       return 1;
@@ -7,3 +8,21 @@ function factorialize(num) {
 }
 
 factorialize(5);
+//2.
+var a= []
+undefined
+function fact(num){
+
+for (var i =1; i <= num ; i++){
+
+a.push(i);
+}
+return a;
+
+}
+
+fact(10);
+var b = a.reduce(function(p,c){
+
+return p * c;
+});
