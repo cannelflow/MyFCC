@@ -1,0 +1,68 @@
+/*Hello, and welcome to the npm adventure workshop!  I am going to be
+asking you to do various things with npm so that you can get started
+with it easily.
+
+Some helpful commands:
+
+npm help ............ Get help with npm
+how-to-npm print .... Re-display the current exercise
+how-to-npm verify ... Verify that you have finished an exercise
+how-to-npm solution . Show the solution for the current exercise
+
+The first thing we're going to do is make sure that your npm
+version is up to date.
+
+Run `how-to-npm verify` once that is done.
+
+(This is the only part of the workshop that requires network access.
+If the network is busted, and you want to skip this one, you can run
+`how-to-npm verify skip` to skip it.)*/
+/*
+02 Log In
+npm is best when you can be a part of it.  That starts with
+creating an account.
+
+Because this is just a tutorial adventure, remember, we're not
+*actually* creating an account anywhere.  However, when you run
+this in the Real World, it'll create a real account, with a page
+on npmjs.com and the ability to publish packages that real live
+humans can install and enjoy.
+
+To see who you're logged in as, run `npm whoami`
+
+To create your account, run `npm adduser`
+
+Try it now, and open the door to ever-greater module fun times!
+Then run `how-to-npm verify`
+*/
+cannelflow1:~/workspace/demo $ npm adduser
+Username: cannelflow
+Password: 
+Email: (this IS public) cannelflow@gmail.com
+Logged in as cannelflow on https://registry.npmjs.org/.
+cannelflow1:~/workspace/demo $ how-to-npm verify
+Congratulations, cannelflow!
+You are the proud owner of an imaginary new npm account!
+Use it wisely.  Never in anger.  Always for the Good.
+
+With this sweet power comes much responsibility, which is
+sufficiently different from Spiderman's thing that Marvel
+hopefully won't sue us.
+
+Excelsior!
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@     YOUR SOLUTION IS CORRECT!     @@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+/*
+03 Start A Project
+npm helps you build projects, but for npm to be able to do that, you need
+to tell npm a little bit about your project. You can tell npm about your
+project in a file called package.json.
+
+Run `npm init --scope=<username>`, and replace <username> with the user
+you created in the last lesson. This will create a package.json file.
+(For extra credit, set the project up with a git repo as well.)
+
+Run `how-to-npm verify` once you're done.
+*/
