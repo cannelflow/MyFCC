@@ -38,8 +38,7 @@ var App =React.createClass({
         })
     },
     rawMarkup: function() {
-        var rawMarkup = marked(this.state.value.toString(), {sanitize: true});
-        return { __html: rawMarkup };
+        return { __html: marked(this.state.value, { sanitize: true, breaks: true }) };
     },
     render:function(){
         return(
