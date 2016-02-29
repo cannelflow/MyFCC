@@ -8,12 +8,15 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <style>
         .outputBox,textarea{
-            width: 400px;
+            width: 500px;
             border: 5px solid gray;
             margin: 0;
-            height: 500px;
+            height: 650px;
         }
-
+        body{
+            font-family: Arial;
+            font-size: large;
+        }
     </style>
 </head>
 <div id="app"></div>
@@ -25,11 +28,41 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
 </body>
 </html>
-// js file
+//js file
+var initialText = `Heading
+=======
+--------------
+Sub-heading
+-----------
+
+### Another deeper heading
+
+Paragraphs are separated
+by a blank line.
+
+Leave 2 spaces at the end of a line to do a
+line break
+
+Text attributes *italic*, **bold**,
+\`monospace\`, ~~strikethrough~~ .
+
+Shopping list:
+
+  * apples
+  * oranges
+  * pears
+
+Numbered list:
+
+  1. apples
+  2. oranges
+  3. pears
+
+ *[cannelflow](http://freecodecamp.com/cannelflow)*`;
 var App =React.createClass({
     getInitialState:function(){
         return{
-            value:"My Value"
+            value:initialText
         }
     },
     updateValue:function(modifiedValue){
