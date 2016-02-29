@@ -6,6 +6,15 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <style>
+        .outputBox,textarea{
+            width: 400px;
+            border: 5px solid gray;
+            margin: 0;
+            height: 500px;
+        }
+
+    </style>
 </head>
 <div id="app"></div>
 <script src="demo.js" type="text/babel"></script>
@@ -28,31 +37,42 @@ var App =React.createClass({
             value:modifiedValue
         })
     },
+    rawMarkup: function() {
+        var rawMarkup = marked(this.state.value.toString(), {sanitize: true});
+        return { __html: rawMarkup };
+    },
     render:function(){
         return(
             <div className="inputBox container-fluid">
-                <h1 className="text-center text-primary">Hello FreeCodeCampers !!!</h1>
-                <div className="row col-md-12">
-                    <InputBox value={this.state.value} updateValue={this.updateValue}/>
-                    <h1>{this.state.value}</h1>
+                <h1 className="text-center text-primary">Hello Coders !!!</h1>
+                <div className="row">
+                    <div className="col-md-6 col-md-offset-1">
+                        <InputBox value={this.state.value} updateValue={this.updateValue}/>
+                    </div>
+
+                    <div
+                        className="outputBox col-md-6 col-md-offset-1"
+                        dangerouslySetInnerHTML={this.rawMarkup()} />
                 </div>
             </div>
         );
     }
 });
+
 var InputBox =React.createClass({
-    update:function(e){
-      //  var modifiedValue=ReactDOM.findDOMNode(this.refs.initialValue).value;
-        var modifiedValue=this.refs.initialValue.value;
-       // var modifiedValue= e.target.value
+    update: function() {
+        var modifiedValue = this.refs.initialValue.value;
         this.props.updateValue(modifiedValue);
     },
+
     render:function(){
         return(
-            <input type="text" value={this.props.value} onChange={this.update} ref="initialValue"/>
+            <textarea type="text" value={this.props.value} onChange={this.update} ref="initialValue">
+                        </textarea>
+
         );
     }
 });
 ReactDOM.render(<App />,
-document.querySelector("#app")
+    document.querySelector("#app")
 );
