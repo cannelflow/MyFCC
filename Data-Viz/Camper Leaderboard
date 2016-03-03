@@ -45,6 +45,9 @@ var App = React.createClass({
     componentDidMount(){
         this.getDataFromServer('http://fcctop100.herokuapp.com/api/fccusers/top/recent');
     },
+    handleClick:function(){
+        this.getDataFromServer('http://fcctop100.herokuapp.com/api/fccusers/top/alltime');
+    },
     //showResult Method
         showResult: function(response) {
 
@@ -85,7 +88,9 @@ var Result = React.createClass({
                     <table className="table table-bordered">
                         <thead>
                         <tr>
-                            <th className="col-md-4">UserName</th>
+                            <th>Rank</th>
+                            <th>Profile Pic</th>
+                            <th >Camper Name</th>
                             <th >Points In Last 30 Days</th>
                             <th>Points All Time</th>
                         </tr>
@@ -102,9 +107,12 @@ var Result = React.createClass({
 var ResultItem = React.createClass({
     render:function(){
         var camper = this.props.user;
+        var purl="http://www.freecodecamp.com/"+camper.username;
         return(
             <tr >
-                <td><img src={camper.img}/>{camper.username}</td>
+                <td></td>
+                <td><img src={camper.img}/></td>
+                <td><a href={purl} target="_blank">{camper.username}</a></td>
                 <td>{camper.recent}</td>
                 <td>{camper.alltime}</td>
             </tr>
