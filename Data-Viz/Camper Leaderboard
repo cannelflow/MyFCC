@@ -6,6 +6,17 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        img{
+            height:45px;
+            width:45px;
+            border:2px solid;
+            border-radius:8px;
+        }
+        td,th{
+            text-align: center;
+        }
+    </style>
 </head>
 <div id="app"></div>
 <script src="demo.js" type="text/babel"></script>
@@ -67,12 +78,24 @@ var Result = React.createClass({
     render:function(){
         var result = this.props.result.map(function(result,index){
             return <ResultItem key={index} user={ result } />
-            });
+        });
         return(
-            <div>
-                {result}
+            <div className="row">
+                <div className="col-md-12">
+                    <table className="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th className="col-md-4">UserName</th>
+                            <th >Points In Last 30 Days</th>
+                            <th>Points All Time</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {result}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
         );
     }
 });
@@ -80,27 +103,11 @@ var ResultItem = React.createClass({
     render:function(){
         var camper = this.props.user;
         return(
-                <div className="row">
-                    <div className="col-md-12">
-                        <table className="table table-bordered">
-                            <thead>
-                            <tr>
-                                <th className="col-md-4">UserName</th>
-                                <th>Points In Last 30 Days</th>
-                                <th>Points All Time</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr >
-                                <td>{camper.username}</td>
-                                <td>{camper.recent}</td>
-                                <td>{camper.alltime}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
+            <tr >
+                <td><img src={camper.img}/>{camper.username}</td>
+                <td>{camper.recent}</td>
+                <td>{camper.alltime}</td>
+            </tr>
         );
     }
 });
