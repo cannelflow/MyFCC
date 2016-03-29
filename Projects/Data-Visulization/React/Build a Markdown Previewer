@@ -6,28 +6,16 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <style type="text/css">
-        img{
-            height:45px;
-            width:45px;
-            border:2px solid;
-            border-radius:8px;
+    <style>
+        .outputBox,textarea{
+            width: 500px;
+            border: 5px solid gray;
+            margin: 0;
+            height: 650px;
         }
-        td,th{
-            text-align: center;
-        }
-        body {
-            counter-reset: Serial;   /* Set the Serial counter to 0 */
-        }
-        table {
-            border-collapse: separate;
-        }
-        tr td:first-child:before {
-            counter-increment: Serial;      /* Increment the Serial counter */
-            content:counter(Serial); /* Display the counter */
-        }
-        .btn:focus{
-            background: red;
+        body{
+            font-family: Arial;
+            font-size: large;
         }
     </style>
 </head>
@@ -41,108 +29,82 @@
 </body>
 </html>
 //js file
-var MainBox  = React.createClass({
-    render:function(){
-        return(
-            <App/>
-        );
-    }
-});
-var App = React.createClass({
-    //setting up initial state
+var initialText = `Heading
+=======
+--------------
+Sub-heading
+-----------
+
+### Another deeper heading
+
+Paragraphs are separated
+by a blank line.
+
+Leave 2 spaces at the end of a line to do a
+line break
+
+Text attributes *italic*, **bold**,
+\`monospace\`, ~~strikethrough~~ .
+
+Shopping list:
+
+  * apples
+  * oranges
+  * pears
+
+Numbered list:
+
+  1. apples
+  2. oranges
+  3. pears
+
+ *[cannelflow](http://freecodecamp.com/cannelflow)*`;
+var App =React.createClass({
     getInitialState:function(){
         return{
-            data:[]
-        };
+            value:initialText
+        }
     },
-    componentDidMount(){
-        this.getDataFromServer('http://fcctop100.herokuapp.com/api/fccusers/top/recent');
+    updateValue:function(modifiedValue){
+        this.setState({
+            value:modifiedValue
+        })
     },
-    handleClick:function(){
-        this.getDataFromServer('http://fcctop100.herokuapp.com/api/fccusers/top/alltime');
+    rawMarkup: function() {
+        return { __html: marked(this.state.value, { sanitize: true, breaks: true }) };
     },
-    handleClick1:function(){
-        this.getDataFromServer('http://fcctop100.herokuapp.com/api/fccusers/top/recent');
-    },
-    //showResult Method
-        showResult: function(response) {
+    render:function(){
+        return(
+            <div className="inputBox container-fluid">
+                <h1 className="text-center text-primary">Hello Coders !!!</h1>
+                <div className="row">
+                    <div className="col-md-6 col-md-offset-1">
+                        <InputBox value={this.state.value} updateValue={this.updateValue}/>
+                    </div>
 
-            this.setState({
-                data: response
-            });
-    },
-    //making ajax call to get data from server
-    getDataFromServer:function(URL){
-        $.ajax({
-            type:"GET",
-            dataType:"json",
-            url:URL,
-            success: function(response) {
-                this.showResult(response);
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error(this.props.url, status, err.toString());
-            }.bind(this)
-        });
-    },
-    render:function(){
-        return(
-            <div>
-                        <div className="row">
-                            <div className="text-center">
-                                <button className="btn btn-primary demobtn" onClick={this.handleClick1}>Recent Rank</button>
-                                <button className="btn btn-primary" onClick={this.handleClick}>All Time Rank</button>
-                            </div>
-                        </div>
-                <Result result={this.state.data} />
-            </div>
-        );
-    }
-});
-var Result = React.createClass({
-    render:function(){
-        var result = this.props.result.map(function(result,index){
-            return <ResultItem key={index} user={ result } />
-        });
-        return(
-            <div className="row">
-                <div className="col-md-10 col-md-offset-1">
-                    <table className="table table-striped table-bordered table-condensed text-center">
-                        <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Profile Pic</th>
-                            <th >Camper Name</th>
-                            <th >Points In Last 30 Days</th>
-                            <th>Points All Time</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {result}
-                        </tbody>
-                    </table>
+                    <div
+                        className="outputBox col-md-6 col-md-offset-1"
+                        dangerouslySetInnerHTML={this.rawMarkup()} />
                 </div>
             </div>
         );
     }
 });
-var ResultItem = React.createClass({
+
+var InputBox =React.createClass({
+    update: function() {
+        var modifiedValue = this.refs.initialValue.value;
+        this.props.updateValue(modifiedValue);
+    },
+
     render:function(){
-        var camper = this.props.user;
-        var purl="http://www.freecodecamp.com/"+camper.username;
         return(
-            <tr >
-                <td></td>
-                <td><img src={camper.img}/></td>
-                <td><a href={purl} target="_blank">{camper.username}</a></td>
-                <td>{camper.recent}</td>
-                <td>{camper.alltime}</td>
-            </tr>
+            <textarea type="text" value={this.props.value} onChange={this.update} ref="initialValue">
+                        </textarea>
+
         );
     }
 });
-ReactDOM.render(
-    <MainBox />,
+ReactDOM.render(<App />,
     document.querySelector("#app")
 );
-//final Project For FCC
