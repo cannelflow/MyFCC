@@ -1,0 +1,157 @@
+//html file
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pomodoro Clock</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href="StyleSheet.css" rel="stylesheet" />
+</head>
+<body>
+    <section>
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Project Local Weather</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <div class="pull-right">
+                        <button class="btn btn-default btn-lg" id="tempF">convert to fahrenheit</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="container-fluid text-center">
+           <br /><br />
+          <div class="row text-center">
+              <div class="col-lg-6">
+                  <i class="ionicons ion-thermometer flink"></i>
+                  <h1 class="text-primary" id="demo1"></h1>
+              </div>
+              <div class="col-lg-6">
+                  <h1 class="text-primary"><span id="demo3"></span><span id="demo2"></span></h1>
+              </div>
+              <div class="row col-lg-12">
+                  <div class="row col-lg-1 col-lg-offset-1"><i class="fa fa-map-marker"></i></div>
+                  <div class="row col-lg-10"><h1 class="text-primary" id="demo"></h1></div>
+              </div>
+              
+          </div>
+        </div>
+    </section>
+    <footer class="text-center">
+        <div class="container-fluid navbar-fixed-bottom text-center">
+            <span class="glyphicon glyphicon-fire flink"></span>
+            <a href="#"><i class="fa fa-facebook-square flink"></i></a>
+            <a href="#"><i class="fa fa-twitter-square flink"></i></a>
+            <a href="#"><i class="fa fa-github flink"></i></a>
+            <h3><span class="glyphicon glyphicon-hand-right flink"></span> Project Show Local Weather Made By <a href="#" data-toggle="tooltip" title="Cannelflow">Cannelflow</a></h3>
+        </div>
+    </footer>
+    <script src="Scripts/jquery-2.2.0.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script src="JavaScript.js"></script>
+</body>
+</html>
+//js file
+var x = document.querySelector("#demo");
+var y = document.querySelector("#demo1");
+var z = document.querySelector("#demo2");
+//var z1 = document.querySelector("#demo3");
+window.onload = getLocation();
+//window.onload=getWeather();
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+//Location For Display
+function showPosition(position) {
+    var loc = { lat: position.coords.latitude, lon: position.coords.longitude };
+    getWeather(loc);
+    var baseURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng=";
+    var fullURL = baseURL + loc.lat + "," + loc.lon;
+    $.ajax({
+        url: fullURL,
+        success: function (display) {
+            x.innerHTML = display.results[1].formatted_address;
+        }
+    });
+
+}
+//Location For Weather
+function getWeather(loc) {
+    var baseURL = "http://api.openweathermap.org/data/2.5/weather?lat=";
+    var appid = "064129b86c99c35c42d531db251b99e3";
+    //var fullURL = baseURL + loc.lat + "&lon=" + loc.lat + "&appid=" + appid + "&units=metric";
+    //http://api.openweathermap.org/data/2.5/weather?lat=21.2600668&lon=81.5989561&appid=064129b86c99c35c42d531db251b99e3&units=metric
+    //calling weather API
+    $.ajax({
+        url: baseURL,
+        type: 'get',
+        dataType: 'JSONP',
+        data: { lat: loc.lat, lon: loc.lon, units: 'metric', APPID: appid },
+        success: function (data) {
+            var tempC = data['main']['temp'];
+            var tempF = data['main']['temp'];
+            var description = data.weather[0].description;
+            var icon = data.weather[0].icon;
+            y.innerHTML = tempC + "°C";
+            //toggle button to show temp in F/C
+            $(document).ready(function () {
+                $("button").click(function () {
+                    if ($(this).text() === "convert to fahrenheit") {
+                        //toggle to other value
+                        $(this).text("convert to celcius");
+                        //logic to conver to F
+                        y.innerHTML = tempC * 9 / 5 + 32 + " °F";
+                    } else {
+                        $(this).text("convert to fahrenheit");
+                        //logic to convert to C
+                        y.innerHTML = tempC + " °C";
+                    }
+                });
+            });
+            z.innerHTML = description;
+            $('#demo3').html("<img src='http://openweathermap.org/img/w/" + icon + ".png'>");
+            //background-image
+            var imgs = ['url("http://i.imgur.com/eI5KLUW.jpg")', 'url("http://i.imgur.com/rG0P1ro.jpg")', 'url("http://i.imgur.com/voCuONs.jpg")', 'url("http://i.imgur.com/5tFHSKa.jpg")']
+            if (tempC >= 35) {
+                $('body').css('background-image', imgs[0])
+            } else if (tempC < 20 && tempC >= 34) {
+                $('body').css('background-image', imgs[1])
+            } else if (tempC <20  && tempC >= 9) {
+                $('body').css('background-image', imgs[2])
+            } else if (tempC < 10) {
+                $('body').css('background-image', imgs[3])
+            }
+        }
+    });
+}
+//show error function
+function showError(error) {
+    switch (error.code) {
+        case error.PERMISSION_DENIED:
+            x.innerHTML = "User denied the request for Geolocation."
+            break;
+        case error.POSITION_UNAVAILABLE:
+            x.innerHTML = "Location information is unavailable."
+            break;
+        case error.TIMEOUT:
+            x.innerHTML = "The request to get user location timed out."
+            break;
+        case error.UNKNOWN_ERROR:
+            x.innerHTML = "An unknown error occurred."
+            break;
+    }
+}
+
+    
