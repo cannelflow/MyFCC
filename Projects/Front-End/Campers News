@@ -1,0 +1,64 @@
+//html file
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Freecode Camp Campers News</title>
+	<meta charset="utf-8" />
+    <link href="StyleSheet.css" rel="stylesheet" />
+    <link href="Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+</head>
+<body>
+    <div class="se-pre-con"></div>
+    <div class="container-fluid text-center">
+        <h1 class="text-danger">FreeCodeCamp Campers News</h1>
+    </div>
+    <script src="Scripts/jquery-2.2.0.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script src="JavaScript.js"></script>
+</body>
+</html>
+//js file
+//<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+//paste this code under head tag or in a seperate js file.
+// Wait for window load
+
+$(document).ready(function () {
+    window.onload = load(); 
+});
+function load() {
+    $(".se-pre-con").fadeOut("slow");
+    var baseURL = "http://www.freecodecamp.com/news/hot";
+    $.getJSON(baseURL,
+        function (data) {
+            //variable
+            for (i in data) {
+                var heading = data[i].headline;
+                var link = data[i].link;
+                var img1 = data[i].author.picture;
+                var author = data[i].author.username;
+                var date = data[i].timePosted;
+                var nDate = new Date(date).toUTCString();
+             //   var desc = data[i].metaDescription;
+                var like = data[i].upVotes.length;
+                //display
+                display(heading,link,img1,author,nDate,like);
+            }
+        }
+        );
+}
+function display(heading,link,img1,author,nDate,like) {
+    var fic = "<div class='news-box'>" +
+       "<div class='heading '><a href='" + link + "'target='_blank'>" + heading + "</a></div>" +
+       "<div class='image'><a href='" + link + "'target='_blank'><img src='" + img1 + "'/></a></div>" +
+    //   "<div class='description'>" + desc + "</div>" +
+       "<div class=' detail'>" +
+       "<div class='row author text-center'><a href='http://freecodecamp.com/" + author + "' target='_blank'>" + author + "</a></div></div>" +
+       "<div class='row like'><span class='glyphicon glyphicon-thumbs-up'>"+ " "+like+"</span></div>" +
+       "<div class='time'>" + nDate + "</div>" +
+     //  "<hr>"+
+        "</div>"
+    $(".container-fluid").append(fic+ " ");
+}
