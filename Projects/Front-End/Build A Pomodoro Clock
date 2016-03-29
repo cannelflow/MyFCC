@@ -1,0 +1,165 @@
+//html file
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pomodoro Clock</title>
+	<meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
+    <link href="StyleSheet.css" rel="stylesheet" />
+</head>
+<body>
+    <section>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <br>
+                    <h1 class="text-primary"><strong>My Pomodoro Clock</strong></h1>
+                </div>
+                <br />
+                <div class="col-lg-6 text-primary text-center">
+                    <h3>Break Length</h3>
+                    <div>
+                        <button class="btn btn-link btn-lg btn-default btn-bc" id="minus">-</button>
+                        <button type="button" class="btn btn-link btn-lg" id="breaktime"><h3>5</h3></button>
+                        <button class="btn btn-link btn-lg btn-default btn-bc" id="plus">+</button>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-primary text-center">
+                    <h3>Session Length</h3>
+                    <div>
+                        <button class="btn btn-link btn-lg btn-default btn-bc" id="minus2">-</button>
+                        <button type="button" class="btn btn-link btn-lg" id="worktime"><h3>25</h3></button>
+                        <button class="btn btn-link btn-lg btn-default btn-bc" id="plus2">+</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row text-primary top-row text-center">
+                <h2 id="status">Work!</h2>
+                <div><h1 id="timer">25:00</h1></div>
+                <br />
+                <div class="row top-row text-primary bottom">
+                    <button type="button" id="start" onclick="startCount()" class="btn btn-primary btn-lg">Start</button>
+                    <button type="button" id="pause" onclick="pauseCount()" class="btn btn-info btn-lg">Pause</button>
+                    <button type="button" id="reset" onclick="resetCount()" class="btn btn-danger btn-lg">Reset</button>
+                </div>
+            </div>
+        </div>
+    </section>
+   <section id="footer">
+       <div class="container-fluid text-center">
+           <br />
+           <h3>Pomodoro Clock Created By @cannelflow</h3>
+           <a href="http://www.freecodecamp.com/cannelflow"><span class="glyphicon glyphicon-fire"></span></a>
+           <a href="http://www.freecodecamp.com/cannelflow"><span class="glyphicon glyphicon-"></span></a>
+       </div>
+   </section>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script src="Scripts/jquery-2.2.0.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="JavaScript.js"></script>
+</body>
+</html>
+//js file
+// Initialize all your variables here, so you know what you're working with
+var breakMinutes = 5, // always hold the total break minutes
+  workMinutes = 25, // always hold the total work minutes
+  breakTimer = breakMinutes * 60, // will be used to count down when the break timer starts
+  workTimer = workMinutes * 60, // will be used to count down when the work timer starts
+  display = document.querySelector("#timer"),
+  status = 'Work!',
+  isPaused = false, //determines if paused or not
+  t;
+
+//Control For Break Length
+$("#minus").click(function () {
+    if (breakMinutes > 1) {
+        breakMinutes--;
+        $("#breaktime").text(breakMinutes); // update total break time
+    }
+});
+$("#plus").click(function () {
+    breakMinutes++;
+    $("#breaktime").text(breakMinutes); // update total break time
+});
+
+//control for Session Time
+$("#minus2").click(function () {
+    if (workMinutes > 1) {
+        workMinutes--;
+        $("#worktime").text(workMinutes); // update total work time
+        $('#timer').text(workMinutes + ':00'); // update timer text
+    }
+});
+$("#plus2").click(function () {
+    workMinutes++;
+    $("#worktime").text(workMinutes); // update total work time
+    $("#timer").text(workMinutes + ':00'); // update timer text 
+});
+
+function startTimer() {
+    t = setInterval(function () {
+        if (status === 'Work!') {
+            if (workTimer === 0) {
+                status = 'Break';
+                $('#status').text(status);
+                breakTimer = breakMinutes * 60; // reset breaktimer to beginning
+                updateDisplay(breakTimer);
+            }
+            else if (workTimer > 0) {
+                workTimer -= 1;
+                updateDisplay(workTimer);
+            }
+        }
+        else if (status === 'Break') {
+            if (breakTimer === 0) {
+                status = 'Work!';
+                $('#status').text('Work!');
+                workTimer = workMinutes * 60; // reset worktimer to beginning
+                updateDisplay(workTimer);
+            }
+            else if (breakTimer > 0) {
+                breakTimer--;
+                updateDisplay(breakTimer);
+            }
+        }
+    }, 1000);
+}
+
+//removed it from the startTimer so it is much easier to read the code
+function updateDisplay(timer) {
+    var minutes, seconds;
+    minutes = parseInt(timer / 60, 10);
+    seconds = parseInt(timer % 60, 10);
+
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    display.textContent = minutes + ":" + seconds;
+}
+
+function startCount() {
+    if (isPaused) {
+        startTimer(); //if isPaused is true then it continues where it left off.
+        isPaused = false;
+    } else {
+        clearTimeout(t);
+        workTimer = workMinutes * 60; // if isPaused is false, then reset the timer and start at the beginning
+        updateDisplay(workTimer);
+        startTimer();
+    }
+}
+
+function pauseCount() {
+    clearTimeout(t);
+    isPaused = true;
+}
+
+function resetCount() {
+    pauseCount();
+    workTimer = workMinutes * 60; // reset the work timer
+    brakTimer = breakMinutes * 60; // reset the break timer
+    updateDisplay(workTimer) // resets timer text to total work time
+}
