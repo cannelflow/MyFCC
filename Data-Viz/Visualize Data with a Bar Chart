@@ -17,6 +17,9 @@
         <svg class="mainContainer">
         </svg>
     </div>
+    <div class="footer text-center">
+        <a href="http://www.freepik.com/free-vector/abstract-free-pattern-vector_722386.htm">BackGround Image Designed by Freepik</a>
+    </div>
     <script src="../Scripts/jquery-2.2.1.min.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
     <script src="demo.js"></script>
@@ -34,13 +37,13 @@ $.getJSON(url, function (d) {
     console.log(data[0][0]);
     */
     //create Margin
-    var margin = { top: 40, right: 20, bottom: 30, left: 50 },
+    var margin = { top: 40, right: 20, bottom: 60, left: 60 },
         width = 960 - margin.left - margin.right,
         height = 600 - margin.top - margin.bottom;
     /*
        Define Min & Max Data for Scale
     */
-    console.log(d.description);
+  //  console.log(d.description);
     var minDate = new Date(data[0][0]);
     var maxDate = new Date(data[d.data.length - 1][0]);
     /*
@@ -70,7 +73,6 @@ $.getJSON(url, function (d) {
         scale(yScale).
         orient("left").
         ticks(10, "");
-    var thisDate = new Date(data[0][0]);
     /*
     Create Tooltip
     */
@@ -78,7 +80,10 @@ $.getJSON(url, function (d) {
       .attr('class', 'd3-tip')
       .offset([-10, 0])
       .html(function (d) {
-          return ('<strong>$' + d[1].toLocaleString() + ' Billion</strong><p>' + thisDate.getFullYear() + ' - ' + monthNames[thisDate.getMonth()] + '</p>');
+          var thisDate = new Date(d[0]);
+          var year = thisDate.getFullYear();
+          var month = thisDate.getMonth();
+          return ('<strong>$' + d[1].toLocaleString() + ' Billion</strong><p>' + year + ' - ' + monthNames[month] + '</p>');
       });
     /*
     create svg element then append height and width and g which act as a container
@@ -98,6 +103,14 @@ $.getJSON(url, function (d) {
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis);
+    // text label for the x axis
+    svg.append("text")      
+      .attr("class", "notes")
+      .attr("transform", "translate(" + width / 2 + ")")
+      .attr("y", height + margin.bottom)
+      .text(d.description)
+      .call(splitLongLabel);
+
     //Draw yAxis
     svg.append("g")
      .attr("class", "y axis")
@@ -127,23 +140,64 @@ $.getJSON(url, function (d) {
       .on('mouseout', toolTip.hide);
     //add description on top and bottom of svg
     svg.
-        attr("class", "title").
         append("text").
+        attr("class", "title").   
         html("Gross Domestic Product </br>")
+        .attr('x', width / 2)
+        .attr('y', 20)
+        .style("text-anchor", "middle");
+});
+
+var splitLongLabel = function (d) {
+    var el = d; // Get the current element
+    var words = d.text().split("-"); // Split text 
+    el.text('');
+    for (var i = 0; i < words.length; i++) {
+        var tspan = el.append('tspan')
+            .attr('x', 0)
+            .text(words[i])
+            .style("text-anchor", "middle");
+        if (i > 0)
+            tspan
+                .attr('x', 0)
+                .attr('dy', '10')
+                .style("text-anchor", "middle");
+    }
+};
+/*
+  svg.
+       append("text").
+       attr("class", "title").
+       text("Gross Domestic Product").
+       attr("x", 180).
+       attr("y", 30);
     svg.
-        attr("class", "notes").
         append("text").
-        text(d.description);
+        attr("class", "description").
+        append("tspan").
+        text(abc.substring(0, 139)).
+        attr("x", -10).
+        attr("y", 450);
+    svg.
+      append("text").
+      attr("class", "description").
+      append("tspan").
+      text(abc.substring(139, 220)).
+      attr("x", 140).
+      attr("y", 465);
+*/
 //css file
+body {
+background-image:url("http://i844.photobucket.com/albums/ab6/lowshoulder3/motivo2-01_zpstj5tor0q.jpg");
+}
 svg {
   
+  margin-top:20px;
   margin-left: auto;
   margin-right: auto;
   display: block;
   background-color:antiquewhite;
-}
-body {
-  font: 10px sans-serif;
+  border-style:solid;
 }
 
 .axis path,
@@ -189,19 +243,11 @@ body {
 .notes {
   font-size: 12px;
   font-family: sans-serif;
-  color: steelblue;
-  padding: 20px;
-  text-align: center;
-  vertical-align:bottom;
+  fill: steelblue;
+  margin-bottom:20px;
 }
 .title {
   font-size: 2.5em;
   font-family: sans-serif;
-  color: steelblue;
-  text-align: center;
-  padding: 15px 0px 5px 0px;
+  fill: steelblue;
 }
-
-    
-
-});
