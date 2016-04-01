@@ -1,0 +1,303 @@
+//html file
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ScatterPlot</title>
+    <meta charset="utf-8" />
+    <link href="../Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="../Scripts/d3/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.6.7/d3-tip.min.js"></script>
+    <link href="demo.css" rel="stylesheet" />
+</head>
+<body>
+   
+    <script src="../Scripts/jquery-2.2.1.min.js"></script>
+    <script src="../Scripts/bootstrap.min.js"></script>
+    <script src="demo.js"></script>
+</body>
+</html>
+//js file
+var url = "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/cyclist-data.json";
+//Call CSV Data
+d3.json(url, function (error, data) {
+    if (error) console.log("You Got Error Some Where !!!");
+    /*
+     Check For Data
+        console.log(data);
+        console.log(data[0].Name);
+    */
+    var fastestTime = 2210;
+    data.forEach(function (finish) {
+        //turn finishing time into seconds behind winner
+        finish.behind = finish.Seconds - fastestTime;
+        //add data legend
+        if (finish.Doping != "") {
+            finish.legend = "Doping Allegations";
+        } else {
+            finish.legend = "No Doping Allegation";
+        }
+
+        console.log(finish.legend);
+    });
+    //Create Margin
+    var margin = { top: 10, right: 80, bottom: 120, left: 40 },
+        width = 1000 - margin.left - margin.right,
+        height = 600 - margin.top - margin.bottom;
+    /*
+  define scale then followed by axis
+  */
+    // define x and y scales
+    // define x and y scales
+    // Formatters for counts and times (converting numbers to Dates).
+    var formatCount = d3.format(",.0f"),
+        formatTime = d3.time.format("%H:%M"),
+        formatMinutes = function (d) { return formatTime(new Date(2012, 0, 1, 0, d)); };
+    var xScale = d3.scale.linear().
+        domain([d3.max(data, function (d) { return d.behind+50; }), 0 ]).
+        range([0, width]);
+    var yScale = d3.scale.linear().
+        domain([0, d3.max(data, function (d) { return d.Place + 1; })]).
+        range([0, height]);
+    // define x axis and y axis
+    var xAxis = d3.svg.axis().
+        scale(xScale).
+        orient("bottom").
+        tickFormat(formatMinutes);
+    var yAxis = d3.svg.axis().
+        scale(yScale).
+        ticks(8).
+        orient("left");
+    /*
+   Create Tooltip
+   */
+    var toolTip = d3.tip()
+      .attr('class', 'd3-tip')
+      .offset([-10, 0])
+      .html(function (d) {
+          var tooltipHTML = "<span class = 'name'>" + d.Name + " : "+d.Nationality + "</span><br/>" + "Year : "+d.Year + " Time : "+d.Time+"<br/>";
+          if (d.doping !== "") {
+              tooltipHTML += "<br/>" + d.Doping;
+          } else {
+              tooltipHTML += "<br/>"+"No Doping Alligation";
+          }
+          return tooltipHTML;
+      });
+    /*
+   create svg element then append height and width and g which act as a container
+   */
+    var svg = d3.select("body").
+      append("svg").
+      attr({
+          "width": width + margin.right + margin.left,
+          "height": height + margin.top + margin.bottom
+      }).
+    append("g").
+      attr("transform", "translate(" + margin.left + "," + margin.right + ")");
+
+    //call toolTip
+    svg.call(toolTip);
+    // Draw xAxis
+    svg.append("g")
+     .attr("class", "x axis")
+     .attr("transform", "translate(0," + height + ")")
+     .call(xAxis).append("text")
+     .attr("x", 500)
+     .attr("y", 35)
+     .attr("dy", ".35em")
+     .style("text-anchor", "middle")
+     .text("Minutes Behind Fastest Time");;
+    //Draw yAxis
+    svg.append("g")
+     .attr("class", "y axis")
+     .call(yAxis)
+     .append("text")
+     .attr("transform", "rotate(-90)")
+     .attr("x", 0)
+     .attr("y", -35)
+     .attr("dy", ".35em")
+     .style("text-anchor", "middle")
+     .text("Ranking");
+
+    /*
+    create bar or bind data
+   */
+    //bind data
+    svg.selectAll("circle")
+      .data(data)
+   //enter data
+    .enter().
+        append("circle")
+   //update data
+      .attr("class", "circle")
+      .attr("cx", function (d) { return xScale(d.behind); })
+      .attr("cy", function (d) { return yScale(d.Place); })
+      .attr("r", 8)
+      .attr("fill", function (d) {
+          if (d.Doping == "") {
+              return "green";
+          }
+          return "red";
+      })
+      .attr("data-legend", function (d) {
+          return d.legend;
+      })
+      .on('mouseover', toolTip.show)
+      .on('mouseout', toolTip.hide);
+    // Creating labels
+    svg.selectAll(".label")
+                 .data(data)
+                 .enter()
+                 .append("text")
+                 .attr("class", "label")
+                 .text(function (d) {
+                     return d.Name;
+                 })
+                 .attr("x", function (d) {
+                     return xScale(d.behind - 5);
+                 })
+                 .attr("y", function (d) {
+                     return yScale(d.Place - (-0.3));
+                 })
+                 .attr("font-family", "sans-serif")
+                 .attr("font-size", "12px")
+                 .attr("fill", "black");
+    //Add title & subtitle to SvG element 
+    svg.append("text")
+      .attr("class", "heading")
+      .attr("x", (width / 2))
+      .attr("y", -margin.top / 2.5)
+      .attr("text-anchor", "middle")
+      .text("Doping in Professional Bicycle Racing");
+
+    svg.append("text")
+      .attr("class", "heading2")
+      .attr("x", (width / 2))
+      .attr("y", -margin.top / 2 + 35)
+      .attr("text-anchor", "middle")
+      .text("35 Fastest times up Alpe d'Huez");
+
+    svg.append("text")
+      .attr("class", "heading3")
+      .attr("x", (width / 2))
+      .attr("y", -margin.top / 2 + 55)
+      .attr("text-anchor", "middle")
+      .text("Normalized to 13.8km distance");
+    //Create Circle For Legend 
+    //Create Grey Circle
+    svg.append("circle")
+      .attr("cx", function (d) {
+          return xScale(22);
+      })
+      .attr("cy", function (d) {
+          return yScale(20);
+      })
+      .attr("r", 5)
+      .attr("fill", "#333");
+
+    svg.append("text")
+      .attr("x", function (d) {
+          return xScale(19);
+      })
+      .attr("y", function (d) {
+          return yScale(20) + 4;
+      })
+      .attr("text-anchor", "left")
+      .attr("class", "legend")
+      .text("No doping allegations");
+
+    //Now Create Grey Circle
+    svg.append("circle")
+      .attr("cx", function (d) {
+          return xScale(22);
+      })
+      .attr("cy", function (d) {
+          return yScale(23);
+      })
+      .attr("r", 5)
+      .attr("fill", "#f44");
+
+    svg.append("text")
+      .attr("x", function (d) {
+          return xScale(19);
+      })
+      .attr("y", function (d) {
+          return yScale(23) + 4;
+      })
+      .attr("text-anchor", "left")
+      .attr("class", "legend")
+      .text("Riders with doping allegations");
+
+});
+//css file
+body {
+  background-color: #ddd;
+  background-repeat: repeat;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAACgCAMAAACsXRuGAAAADFBMVEWIiIjd3d3y8vLm5uZzdc63AAAAbklEQVR42u3ZIQ4AIAwDwI39/8/wAlTFxFUgm5ALmFZV51Iv52Vyx/7CzhdONr3/ylCgQIECBQoUKFCgQIECBQoUKFCgQIECBcrmccGe4qX4vqBAgQIFChQoUKBAgQIFChQoUKBAgQIFij3lX3gBXBBzc8FaGvIAAAAASUVORK5CYII=)
+}
+svg {
+  margin-top:50px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  background-color:antiquewhite;
+  margin-bottom:50px;
+}
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.bar {
+  fill: orange;
+}
+
+.bar:hover {
+  fill: orangered ;
+}
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+/*Do Not Change*/
+.heading {
+font-family:'HP Simplified';
+font-size:30px;
+}
+.heading2 {
+font-family:'HP Simplified';
+font-size:25px;
+}
+.heading3 {
+font-family:'HP Simplified';
+font-size:20px;
+margin-top:5px;
+}
