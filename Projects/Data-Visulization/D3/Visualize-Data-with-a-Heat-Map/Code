@@ -1,0 +1,245 @@
+//html file
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Heat Map</title>
+    <meta charset="utf-8" />
+    <link href="../Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="../Scripts/d3/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.6.7/d3-tip.min.js"></script>
+    <link href="demo.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="mainContainer">
+        <div class="title">Monthly Global Temperature</div>
+        <div class="subtitle">1753 - 2015</div>
+        <div class="details">Temperatures are in Celsius and reported as anomalies relative to the Jan 1951-Dec 1980 average.<br>Estimated Jan 1951-Dec 1980 absolute temperature &#8451: 8.66 +/- 0.07</div>
+        <div id="chart"></div>
+    </div>
+        <script src="../Scripts/jquery-2.2.1.min.js"></script>
+        <script src="../Scripts/bootstrap.min.js"></script>
+        <script src="demo.js"></script>
+</body>
+</html>
+//js file
+var url = "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/global-temperature.json"
+//Call json Data
+d3.json(url, function (error, data) {
+    if (error) console.log("You Got Error Some Where !!!");
+    /*
+    Check For Data
+    console.log(data.baseTemperature);
+    console.log(data.monthlyVariance[0].year);
+    console.log(data.monthlyVariance[1].year);
+    */
+    var baseT = data.baseTemperature ;
+    var monthlyVar = data.monthlyVariance;
+    var monthlyVarLength = monthlyVar.length;
+    /*
+    console.log(baseT);
+    console.log(monthlyVar);
+    console.log(monthlyVarLength);
+    */
+    //Create Margin
+    var margin = { top: 10, right: 20, bottom: 120, left: 100 },
+       width = 1000 - margin.left - margin.right,
+       height = 600 - margin.top - margin.bottom;
+        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var colors = ["#5e4fa2", "#3288bd", "#66c2a5", "#abdda4", "#e6f598", "#ffffbf", "#fee08b", "#fdae61", "#f46d43", "#d53e4f", "#9e0142"];
+        var gridWidth = 60;
+        var gridHeight = 60;
+        var legendElementWidth = 50;
+        var buckets = colors.length;
+    /*
+   Define Scale Then Followed By Axis
+   */
+    // Define X,Y And Color Scales
+        var xScale = d3.scale.linear().
+            range([0, width]).
+            domain([d3.min(monthlyVar, function (d) { return d.year; }), d3.max(monthlyVar, function (d) { return d.year; })]);
+        var yScale = d3.scale.linear().
+            range([0, height]).
+            domain([d3.min(monthlyVar, function (d) { return d.month; }), d3.max(monthlyVar, function (d) { return d.month; })]);
+        var colorScale = d3.scale.quantile().
+            domain([d3.min(monthlyVar, function (d) { return d.variance + baseT; }),d3.max(monthlyVar, function (d) { return d.variance + baseT; })])
+            .range(colors);
+    // Define X axis And Y Axis
+        var xAxis = d3.svg.axis().
+            scale(xScale).
+            ticks(10).
+            orient("bottom");
+        var yAxis = d3.svg.axis().
+            tickFormat((d) => {
+            return months[d - 1];
+            }).
+            scale(yScale).
+            orient("left");
+    /*
+  Create Tooltip
+  */
+        var toolTip = d3.tip()
+          .attr('class', 'd3-tip')
+          .offset([-10, 0])
+          .html(function (d) {
+              return (d.year + " - " + months[d.month - 1] + " </br> " + d.variance + "</br>" + (Math.floor((d.variance + baseT) * 1000) / 1000));
+          });
+    /*
+ Create SVG Element Then Append Height And Width And g Which Act As A Container
+ */
+        var svg = d3.select("#chart").
+          append("svg").
+          attr({
+              "width": width + margin.right + margin.left,
+              "height": height + margin.top + margin.bottom
+          }).
+        append("g").
+          attr("transform", "translate(" + margin.left + "," + margin.right + ")");
+
+    //call toolTip
+        svg.call(toolTip);
+    // Draw xAxis
+        svg.append("g")
+         .attr("class", "x axis")
+         .attr("transform", "translate(0," + (height + 40) + ")")
+         .call(xAxis)
+         .append("text")
+         .attr("x", width/2)
+         .attr("y", 35)
+         .attr("dy", ".35em")
+         .style("text-anchor", "middle")
+         .text("Year");;
+    //Draw yAxis
+        svg.append("g")
+         .attr("class", "y axis")
+         .attr("transform", "translate(0," + 10 + ")")
+         .call(yAxis)
+         .append("text")
+         .attr("transform", "rotate(-90)")
+         .attr("x", -height/2)
+         .attr("y", -50)
+         .attr("dy", ".35em")
+         .style("text-anchor", "middle")
+         .text("Month");
+    /*
+   create bar or bind data
+  */
+    //bind data
+        svg.selectAll("rect")
+          .data(monthlyVar)
+       //enter data
+        .enter().
+            append("rect")
+       //update data
+          .attr("class", "rect")
+          .attr("x", function (d) { return xScale(d.year); })
+          .attr("y", function (d) { return yScale(d.month); })
+          .attr("width", 5)
+	      .attr("height", 30)
+          .attr("fill", function (d) { return colorScale(d.variance + baseT); })
+          .on('mouseover', toolTip.show)
+          .on('mouseout', toolTip.hide);
+    //Create Legend For Data
+        var legend = svg.selectAll(".legend")
+	              .data([0].concat(colorScale.quantiles()), function (d) { return d; });
+        legend.enter().append("g")
+	      .attr("class", "legend");
+
+        legend.append("rect")
+	      .attr("x", function (d, i) { return (width / 24) * i; })
+	      .attr("y", height +90)
+	      .attr("width", width / 24)
+	      .attr("height", 20)
+	      .style("fill", function (d, i) {
+	          return colors[i];
+	      });
+
+        legend.append("text")
+	      .attr("class", "mono")
+	      .text(function (d) { return (Math.round(d * 10) / 10).toFixed(1); })
+	      .attr("x", function (d, i) { return (width / 24) * i+5; })
+	      .attr("y", height + 105);
+});
+//css file
+body {
+  font: 15px sans-serif;
+  background-color: #ddd;
+  background-repeat: repeat;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAACgCAMAAACsXRuGAAAADFBMVEWIiIjd3d3y8vLm5uZzdc63AAAAbklEQVR42u3ZIQ4AIAwDwI39/8/wAlTFxFUgm5ALmFZV51Iv52Vyx/7CzhdONr3/ylCgQIECBQoUKFCgQIECBQoUKFCgQIECBcrmccGe4qX4vqBAgQIFChQoUKBAgQIFChQoUKBAgQIFij3lX3gBXBBzc8FaGvIAAAAASUVORK5CYII=)
+}
+.mainContainer {
+  background-color: white;
+  margin: 40px auto;
+  padding: 0px;
+  width: 1010px;
+  height: 750px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.32), 0 3px 12px 0 rgba(0, 0, 0, 0.24);
+}
+svg {
+  margin-left:auto;
+  margin-right:auto;
+}
+.x path, .x line{
+	fill: none;
+	shape-rendering: crispEdges;
+	stroke: black;
+}
+
+.y path, .y line{
+	fill: none;
+	stroke: white;
+}
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+  text-align: center;
+}
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+/*Do Not Change*/
+.title {
+  font-family: Roboto, sans-serif;
+  font-size: 1.9em;
+  font-weight: 700;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 0px;
+  color: #333;
+}
+.details {
+  font-family: Roboto, sans-serif;
+  font-size: 1.0em;
+  font-weight: 300;
+  text-align: center;
+  padding: 0px;
+}
+.subtitle {
+  font-family: Roboto, sans-serif;
+  font-size: 1.0em;
+  font-weight: 500;
+  text-align: center;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  color: #555;
+}
