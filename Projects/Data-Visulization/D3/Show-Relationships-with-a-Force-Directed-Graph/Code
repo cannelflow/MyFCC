@@ -1,0 +1,196 @@
+//html file
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Forced Layout</title>
+    <meta charset="utf-8" />
+    <link href="../Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="../Scripts/d3/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.6.7/d3-tip.min.js"></script>
+    <link href="demo.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="mainContainer">
+        <div id="chart"></div>
+    </div>
+        <script src="../Scripts/jquery-2.2.1.min.js"></script>
+        <script src="../Scripts/bootstrap.min.js"></script>
+        <script src="demo.js"></script>
+</body>
+</html>
+//js file
+var url = "https://www.freecodecamp.com/news/hot";
+//Call Data
+d3.json(url, function (error, data) {
+    if (error) console.log("You Got An Error!!!");
+    /*
+    Check For Data
+    console.log(data);
+    */
+    // Extract the nodes and links from the data.
+    var nodes = {},
+	 	links = [];
+    //Remove Extra Character From Url For Displaying
+    function formatUrl(link) {
+        var regex = /(http:|https:)\/\/(www\.)?(\w|\d)+.+?\//i,
+		 	result = regex.exec(link);
+        return result != null ? result[0] : null;
+    }
+    data.forEach(function (link) {
+        var domain = formatUrl(link.link);
+        if (domain != null) {
+            links.push({
+                source: link.author.username,
+                target: domain,
+                picture: link.author.picture
+            });
+        }
+
+    });
+    links.forEach(function (link) {
+        link.source = nodes[link.source] || (nodes[link.source] = { name: link.source, picture: link.picture });
+        link.target = nodes[link.target] || (nodes[link.target] = { name: link.target });
+    });
+    //Create Margin
+    var margin = { top: 10, right: 20, bottom: 120, left: 100 },
+       width = 1000 - margin.left - margin.right,
+       height = 600 - margin.top - margin.bottom;
+    var color = d3.scale.category20();
+    /*
+     Create Tooltip
+   */
+    var toolTip = d3.tip()
+      .attr('class', 'd3-tip')
+      .offset([-10, 0])
+      .html(function (d) {
+          return (d.name);
+      });
+    /*
+   Create SVG Element Then Append Height And Width And g Which Act As A Container
+   */
+    var svg = d3.select("#chart").
+      append("svg").
+      attr({
+          "width": width + margin.right + margin.left,
+          "height": height + margin.top + margin.bottom
+      }).
+    append("g").
+      attr("transform", "translate(" + margin.left + "," + margin.right + ")");
+    //call toolTip
+    svg.call(toolTip);
+    // Now we create a force layout object and define its properties.
+    // Those include the dimensions of the visualization and the arrays
+    // of nodes and links.
+
+    var force = d3.layout.force()
+        .charge(-80)
+        .linkDistance(50)
+        .size([width, height])
+        .nodes(d3.values(nodes))
+        .links(links)
+        .start();
+    //Define Force Layout Function
+    force.on("tick", function () {
+        link.attr("x1", function (d) { return d.source.x; })
+            .attr("y1", function (d) { return d.source.y; })
+            .attr("x2", function (d) { return d.target.x; })
+            .attr("y2", function (d) { return d.target.y; });
+
+        node.attr("transform", function (d) {
+            return "translate(" + d.x + "," + d.y + ")";
+        });
+    });
+
+    /*
+      Bind Link
+    */
+    var link = svg.selectAll('.link')
+        .data(force.links())
+        .enter()
+        .append('line')
+        .attr('class', 'link');
+    // Now it's the nodes turn. Each node is drawn as a circle.
+    var node = svg.selectAll('.node')
+        .data(force.nodes())
+        .enter()
+        .append('g')
+        .attr('class', 'node')
+       .call(force.drag)
+       .on('mouseover', toolTip.show)
+       .on('mouseout', toolTip.hide);
+    //update
+    node.append("circle")
+        .attr("r", function (d) { return d.weight + 5; })
+        .style("fill", function (d) { return color(d.weight); })
+        .style("stroke-width", 2)
+        .style("stroke", "white");
+    node.append("image")
+        .attr("xlink:href", function (d) { return d.picture })
+        .attr("x", -10)
+        .attr("y", -10)
+        .attr("width", 20)
+        .attr("height", 20);
+   
+   
+});
+//css file
+body {
+  font: 15px sans-serif;
+  background-color: #ddd;
+  background-repeat: repeat;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAACgCAMAAACsXRuGAAAADFBMVEWIiIjd3d3y8vLm5uZzdc63AAAAbklEQVR42u3ZIQ4AIAwDwI39/8/wAlTFxFUgm5ALmFZV51Iv52Vyx/7CzhdONr3/ylCgQIECBQoUKFCgQIECBQoUKFCgQIECBcrmccGe4qX4vqBAgQIFChQoUKBAgQIFChQoUKBAgQIFij3lX3gBXBBzc8FaGvIAAAAASUVORK5CYII=)
+}
+.mainContainer {
+  background-color: white;
+  margin: 40px auto;
+  padding: 0px;
+  width: 1010px;
+  height: 750px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.32), 0 3px 12px 0 rgba(0, 0, 0, 0.24);
+}
+svg {
+  margin-left:auto;
+  margin-right:auto;
+}
+.node {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+.link {
+  stroke: #999;
+  stroke-opacity: .6;
+}
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+/*Do Not Change*/
+
+
+
+
