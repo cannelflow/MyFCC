@@ -64,7 +64,11 @@ d3.json(url, function (error, data) {
       .attr('class', 'd3-tip')
       .offset([-10, 0])
       .html(function (d) {
-          return (d.name);
+          result = (d.name).replace(/.*?:\/\//g, "");
+          //   url = (d.name).replace(/^https?:\/\//, '')
+          newString = result.substr(0, result.length-1);
+          return (newString);
+
       });
     /*
    Create SVG Element Then Append Height And Width And g Which Act As A Container
@@ -190,6 +194,8 @@ svg {
   left: 0;
 }
 /*Do Not Change*/
+
+
 
 
 
