@@ -1,0 +1,47 @@
+Now you've installed something, and used `npm ls` to show what's going on.
+
+If you look at the package.json file, it has this rather odd bit in it:
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+
+npm can be used as a task runner, and almost every module and project
+will have a test script that runs to make sure everything is good.  In
+order to help remind you to do this, npm puts a "always failing" test
+in there by default.
+
+First, create a file called `test.js`.  It doesn't have to do anything,
+really.  (This is npm class, not testing class.)  But it has to exit
+without throwing an error, or else the test fails.
+
+Then, edit your `package.json` file to make your scripts section look like
+this instead:
+
+  "scripts": {
+    "test": "node test.js"
+  },
+
+Once that's done, run `how-to-npm verify` to check your work.
+cannelflow1:~/workspace $ how-to-verify npm
+bash: how-to-verify: command not found
+cannelflow1:~/workspace $ how-to-npm verify
+Running your test script...
+
+
+
+> @cannelflow/workspace@1.0.0 test /home/ubuntu/workspace
+> node test.js
+
+
+
+...done!
+Congratulations!  You wrote a test that passes!
+Writing a test that is actually GOOD is left for another time.
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@     YOUR SOLUTION IS CORRECT!     @@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+cannelflow1:~/workspace $ 
