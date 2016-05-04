@@ -1,0 +1,38 @@
+Now that we have some dependencies, and you've learned that your own
+packages can be updated repeatedly, the obvious question is: What do
+we do when someone *else* updates *their* package?
+
+The first step is to detect this.  Because of the way that we define
+our dependencies with a version range, and each release is a unique
+combination of a name and a version, we can detect compatible releases
+programmatically with the `npm outdated` command.
+
+To pass this challenge, run `how-to-npm verify PKG` where `PKG`
+is the name of the package that is out of date.
+cannelflow1:~/workspace $ npm outdated
+npm ERR! Linux 4.2.0-c9
+npm ERR! argv "/home/ubuntu/.nvm/versions/node/v4.4.3/bin/node" "/home/ubuntu/.nvm/versions/node/v4.4.3/bin/npm" "outdated"
+npm ERR! node v4.4.3
+npm ERR! npm  v3.8.8
+npm ERR! code E404
+
+npm ERR! 404 missing : async
+npm ERR! 404 
+npm ERR! 404  'async' is not in the npm registry.
+npm ERR! 404 You should bug the author to publish it (or use the name yourself!)
+npm ERR! 404 
+npm ERR! 404 Note that you can also install from a
+npm ERR! 404 tarball, folder, http url, or git url.
+
+npm ERR! Please include the following file with any support request:
+npm ERR!     /home/ubuntu/workspace/npm-debug.log
+cannelflow1:~/workspace $ how-to-npm verify @linclark/pkg
+That's absolutely right!  The `@linclark/pkg` package has had an update while we
+weren't looking.
+
+In the next lesson, we'll learn how to update packages that are outdated.
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@     YOUR SOLUTION IS CORRECT!     @@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
