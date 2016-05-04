@@ -1,0 +1,72 @@
+npm helps you build projects, but for npm to be able to do that, you need
+to tell npm a little bit about your project. You can tell npm about your
+project in a file called package.json.
+
+Run `npm init --scope=<username>`, and replace <username> with the user
+you created in the last lesson. This will create a package.json file.
+(For extra credit, set the project up with a git repo as well.)
+
+Run `how-to-npm verify` once you're done.
+cannelflow1:~/workspace $ npm init --scope <cannelflow>
+bash: syntax error near unexpected token `newline'
+cannelflow1:~/workspace $ npm init --scope cannelflow
+This utility will walk you through creating a package.json file.
+It only covers the most common items, and tries to guess sensible defaults.
+
+See `npm help json` for definitive documentation on these fields
+and exactly what they do.
+
+Use `npm install <pkg> --save` afterwards to install a package and
+save it as a dependency in the package.json file.
+
+Press ^C at any time to quit.
+name: (@cannelflow/workspace) 
+version: (1.0.0) 
+description: 
+entry point: (server.js) 
+test command: 
+git repository: 
+keywords: 
+author: 
+license: (ISC) 
+About to write to /home/ubuntu/workspace/package.json:
+
+{
+  "name": "@cannelflow/workspace",
+  "version": "1.0.0",
+  "description": ",-----.,--.                  ,--. ,---.   ,--.,------.  ,------.     '  .--./|  | ,---. ,--.,--. ,-|  || o   \\  |  ||  .-.  \\ |  .---'     |  |    |  || .-. ||  ||  |' .-. |`..'  |  |  ||  |  \\  :|  `--,      '  '--'\\|  |' '-' ''  ''  '\\ `-' | .'  /   |  ||  '--'  /|  `---.      `-----'`--' `---'  `----'  `---'  `--'    `--'`-------' `------'     -----------------------------------------------------------------",
+  "main": "server.js",
+  "dependencies": {
+    "async": "^0.2.10",
+    "express": "^3.2.6",
+    "socket.io": "^0.9.17"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
+
+
+Is this ok? (yes) 
+cannelflow1:~/workspace $ how-to-npm verify
+For extra credit, try also setting up this dir as
+a git repository.
+
+The convention is to have a single git repo for each
+module or project.  Use the `git init` command to set
+up your working dir as a git project.
+
+Then, run `how-to-npm verify extra credit`
+
+
+Congratulations!
+You created a project!  View the package.json file to see it.
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@     YOUR SOLUTION IS CORRECT!     @@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
