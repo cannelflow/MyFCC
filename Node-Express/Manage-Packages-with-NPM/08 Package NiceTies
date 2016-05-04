@@ -1,0 +1,79 @@
+So, we've created a package.json file, but it's missing a few things
+that people usually expect.  If you type `npm install`, you'll see
+something like this:
+
+    npm WARN package.json @cannelflow/workspace@1.0.0 No description
+    npm WARN package.json @cannelflow/workspace@1.0.0 No repository field.
+    npm WARN package.json @cannelflow/workspace@1.0.0 No README data
+
+Before we can share this work of art with the world, we need to make
+it a bit more polished so that people know how to use it.
+
+First, create a README.md file, with a bit of words in it.
+
+Then, add a "repository" field in your package.json file, with a url
+where people can access the code.
+
+You can edit your package.json file by hand, or run `npm init` again.
+
+Run `how-to-npm verify` when you're done.
+cannelflow1:~/workspace $ npm init
+This utility will walk you through creating a package.json file.
+It only covers the most common items, and tries to guess sensible defaults.
+
+See `npm help json` for definitive documentation on these fields
+and exactly what they do.
+
+Use `npm install <pkg> --save` afterwards to install a package and
+save it as a dependency in the package.json file.
+
+Press ^C at any time to quit.
+name: (@cannelflow/workspace) 
+version: (1.0.0) 
+git repository: https://github.com/cannelflow/MyFCC/tree/master/Node-Express/Manage-Packages-with-NPM
+keywords: Manage Packages with NPM 
+author: cannelflow
+license: (ISC) 
+About to write to /home/ubuntu/workspace/package.json:
+
+{
+  "name": "@cannelflow/workspace",
+  "version": "1.0.0",
+  "description": ",-----.,--.                  ,--. ,---.   ,--.,------.  ,------.     '  .--./|  | ,---. ,--.,--. ,-|  || o   \\  |  ||  .-.  \\ |  .---'     |  |    |  || .-. ||  ||  |' .-. |`..'  |  |  ||  |  \\  :|  `--,      '  '--'\\|  |' '-' ''  ''  '\\ `-' | .'  /   |  ||  '--'  /|  `---.      `-----'`--' `---'  `----'  `---'  `--'    `--'`-------' `------'     -----------------------------------------------------------------",
+  "main": "server.js",
+  "dependencies": {
+    "@linclark/pkg": "^1.0.2",
+    "async": "^0.2.10",
+    "express": "^3.2.6",
+    "socket.io": "^0.9.17"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node test.js",
+    "start": "node server.js"
+  },
+  "author": "cannelflow",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cannelflow/MyFCC/tree/master/Node-Express/Manage-Packages-with-NPM"
+  },
+  "keywords": [
+    "Manage",
+    "Packages",
+    "with",
+    "NPM"
+  ]
+}
+
+
+Is this ok? (yes) 
+cannelflow1:~/workspace $ 
+cannelflow1:~/workspace $ how-to-npm verify
+Looking sharp!
+A package without a readme and some metadata is like a
+bunch of JavaScript without instructions or git repo links.
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@     YOUR SOLUTION IS CORRECT!     @@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
