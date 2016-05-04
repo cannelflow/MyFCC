@@ -1,0 +1,164 @@
+npm isn't just for installing stuff.  It also shows you what you
+have installed.
+
+You can do this using the `npm ls` command.
+
+Run this command in your working dir, and then run
+`how-to-npm verify OK` if everything looks ok,
+or `how-to-npm verify NOT OK` if there was a problem.
+cannelflow1:~/workspace $ npm ls
+@cannelflow/workspace@1.0.0 /home/ubuntu/workspace
+├── @linclark/pkg@1.0.2 extraneous
+├── async@0.2.10
+├─┬ express@3.2.6
+│ ├── buffer-crc32@0.2.1
+│ ├── commander@0.6.1
+│ ├─┬ connect@2.7.11
+│ │ ├── bytes@0.2.0
+│ │ ├── cookie@0.0.5
+│ │ ├── formidable@1.0.14
+│ │ ├── pause@0.0.1
+│ │ ├── qs@0.6.5
+│ │ └─┬ send@0.1.1
+│ │   └── mime@1.2.11
+│ ├── cookie@0.1.0
+│ ├── cookie-signature@1.0.1
+│ ├─┬ debug@2.2.0
+│ │ └── ms@0.7.1
+│ ├── fresh@0.1.0
+│ ├── methods@0.0.1
+│ ├── mkdirp@0.3.4
+│ ├── range-parser@0.0.4
+│ └─┬ send@0.1.0
+│   └── mime@1.2.6
+└─┬ socket.io@0.9.17
+  ├── base64id@0.1.0
+  ├── policyfile@0.0.4
+  ├── redis@0.7.3
+  └─┬ socket.io-client@0.9.16
+    ├─┬ active-x-obfuscator@0.0.1
+    │ └── zeparser@0.0.5
+    ├── uglify-js@1.2.5
+    ├─┬ ws@0.4.32
+    │ ├── commander@2.1.0
+    │ ├── nan@1.0.0
+    │ ├── options@0.0.6
+    │ └── tinycolor@0.0.1
+    └── xmlhttprequest@1.4.2
+
+npm ERR! extraneous: @linclark/pkg@1.0.2 /home/ubuntu/workspace/node_modules/@linclark/pkg
+cannelflow1:~/workspace $ how-to-npm verify OK
+Sorry, no.  Everything is not ok!
+Try running `npm ls` and viewing the error.
+#########################################
+###   YOUR SOLUTION IS NOT CORRECT!   ###
+#########################################
+
+
+cannelflow1:~/workspace $ npm ls
+@cannelflow/workspace@1.0.0 /home/ubuntu/workspace
+├── @linclark/pkg@1.0.2 extraneous
+├── async@0.2.10
+├─┬ express@3.2.6
+│ ├── buffer-crc32@0.2.1
+│ ├── commander@0.6.1
+│ ├─┬ connect@2.7.11
+│ │ ├── bytes@0.2.0
+│ │ ├── cookie@0.0.5
+│ │ ├── formidable@1.0.14
+│ │ ├── pause@0.0.1
+│ │ ├── qs@0.6.5
+│ │ └─┬ send@0.1.1
+│ │   └── mime@1.2.11
+│ ├── cookie@0.1.0
+│ ├── cookie-signature@1.0.1
+│ ├─┬ debug@2.2.0
+│ │ └── ms@0.7.1
+│ ├── fresh@0.1.0
+│ ├── methods@0.0.1
+│ ├── mkdirp@0.3.4
+│ ├── range-parser@0.0.4
+│ └─┬ send@0.1.0
+│   └── mime@1.2.6
+└─┬ socket.io@0.9.17
+  ├── base64id@0.1.0
+  ├── policyfile@0.0.4
+  ├── redis@0.7.3
+  └─┬ socket.io-client@0.9.16
+    ├─┬ active-x-obfuscator@0.0.1
+    │ └── zeparser@0.0.5
+    ├── uglify-js@1.2.5
+    ├─┬ ws@0.4.32
+    │ ├── commander@2.1.0
+    │ ├── nan@1.0.0
+    │ ├── options@0.0.6
+    │ └── tinycolor@0.0.1
+    └── xmlhttprequest@1.4.2
+
+npm ERR! extraneous: @linclark/pkg@1.0.2 /home/ubuntu/workspace/node_modules/@linclark/pkg
+cannelflow1:~/workspace $ npm update --save
+npm ERR! Linux 4.2.0-c9
+npm ERR! argv "/home/ubuntu/.nvm/versions/node/v4.4.3/bin/node" "/home/ubuntu/.nvm/versions/node/v4.4.3/bin/npm" "update" "--save"
+npm ERR! node v4.4.3
+npm ERR! npm  v3.8.8
+npm ERR! code E404
+
+npm ERR! 404 missing : async
+npm ERR! 404 
+npm ERR! 404  'async' is not in the npm registry.
+npm ERR! 404 You should bug the author to publish it (or use the name yourself!)
+npm ERR! 404 
+npm ERR! 404 Note that you can also install from a
+npm ERR! 404 tarball, folder, http url, or git url.
+
+npm ERR! Please include the following file with any support request:
+npm ERR!     /home/ubuntu/workspace/npm-debug.log
+cannelflow1:~/workspace $ npm install @linclark/pkg --save
+npm WARN @cannelflow/workspace@1.0.0 No repository field.
+cannelflow1:~/workspace $ npm ls
+@cannelflow/workspace@1.0.0 /home/ubuntu/workspace
+├── @linclark/pkg@1.0.2
+├── async@0.2.10
+├─┬ express@3.2.6
+│ ├── buffer-crc32@0.2.1
+│ ├── commander@0.6.1
+│ ├─┬ connect@2.7.11
+│ │ ├── bytes@0.2.0
+│ │ ├── cookie@0.0.5
+│ │ ├── formidable@1.0.14
+│ │ ├── pause@0.0.1
+│ │ ├── qs@0.6.5
+│ │ └─┬ send@0.1.1
+│ │   └── mime@1.2.11
+│ ├── cookie@0.1.0
+│ ├── cookie-signature@1.0.1
+│ ├─┬ debug@2.2.0
+│ │ └── ms@0.7.1
+│ ├── fresh@0.1.0
+│ ├── methods@0.0.1
+│ ├── mkdirp@0.3.4
+│ ├── range-parser@0.0.4
+│ └─┬ send@0.1.0
+│   └── mime@1.2.6
+└─┬ socket.io@0.9.17
+  ├── base64id@0.1.0
+  ├── policyfile@0.0.4
+  ├── redis@0.7.3
+  └─┬ socket.io-client@0.9.16
+    ├─┬ active-x-obfuscator@0.0.1
+    │ └── zeparser@0.0.5
+    ├── uglify-js@1.2.5
+    ├─┬ ws@0.4.32
+    │ ├── commander@2.1.0
+    │ ├── nan@1.0.0
+    │ ├── options@0.0.6
+    │ └── tinycolor@0.0.1
+    └── xmlhttprequest@1.4.2
+
+cannelflow1:~/workspace $ how-to-npm verify OK
+Looks like you fixed the problem.  Fantastic!
+Note that `npm ls` is a lot calmer now.
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@     YOUR SOLUTION IS CORRECT!     @@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
