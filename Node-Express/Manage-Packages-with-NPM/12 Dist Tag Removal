@@ -1,0 +1,26 @@
+Now that you've added a dist-tag or two, let's clean things up.
+
+The only dist-tag you CAN'T ever remove is "latest".  That's because
+every package installs it's "latest" tag by default, so that tag has
+some special semantics.
+
+You CAN point "latest" to a different version, or delete other tags.
+
+Let's delete all the tags that we can, and also point "latest" at
+something other than the most recent release.
+
+Run `npm help dist-tag` to learn more about the command.
+cannelflow1:~/workspace $ npm help dist-tag
+cannelflow1:~/workspace $  npm dist-tag rm @cannelflow/workspace stable
+-stable: @cannelflow/workspace@1.0.0
+cannelflow1:~/workspace $ npm dist-tag add @cannelflow/workspace@1.0.0 latest
++latest: @cannelflow/workspace@1.0.0
+cannelflow1:~/workspace $ how-to-npm verify
+Congratulations!  You're a dist-tagging pro!
+
+Run `how-to-npm` to move on to the next exercise.
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@     YOUR SOLUTION IS CORRECT!     @@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
