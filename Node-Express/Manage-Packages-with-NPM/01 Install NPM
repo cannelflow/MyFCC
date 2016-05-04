@@ -29,3 +29,18 @@ Run `npm install npm -g` to upgrade it
 #########################################
 ###   YOUR SOLUTION IS NOT CORRECT!   ###
 #########################################
+cannelflow1:~/workspace $ npm install npm -g
+/home/ubuntu/.nvm/versions/node/v4.4.3/bin/npm -> /home/ubuntu/.nvm/versions/node/v4.4.3/lib/node_modules/npm/bin/npm-cli.js
+npm@3.8.8 /home/ubuntu/.nvm/versions/node/v4.4.3/lib/node_modules/npm
+cannelflow1:~/workspace $ how-to-npm verify
+verifying that npm is installed...
+You have version 3.8.8 installed.  Great!
+Now let's see what the latest version is... wait for it...
+The latest npm is: 3.8.8
+Congratulations!
+You have a recent version of npm installed!
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@     YOUR SOLUTION IS CORRECT!     @@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
