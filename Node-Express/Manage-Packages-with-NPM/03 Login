@@ -1,0 +1,49 @@
+npm is best when you can be a part of it.  That starts with
+creating an account.
+
+Because this is just a tutorial adventure, remember, we're not
+*actually* creating an account anywhere.  However, when you run
+this in the Real World, it'll create a real account, with a page
+on npmjs.com and the ability to publish packages that real live
+humans can install and enjoy.
+
+To see who you're logged in as, run `npm whoami`
+
+To create your account, run `npm adduser`
+
+Try it now, and open the door to ever-greater module fun times!
+Then run `how-to-npm verify`
+cannelflow1:~/workspace $ npm whoami
+npm ERR! Linux 4.2.0-c9
+npm ERR! argv "/home/ubuntu/.nvm/versions/node/v4.4.3/bin/node" "/home/ubuntu/.nvm/versions/node/v4.4.3/bin/npm" "whoami"
+npm ERR! node v4.4.3
+npm ERR! npm  v3.8.8
+npm ERR! code ENEEDAUTH
+
+npm ERR! need auth this command requires you to be logged in.
+npm ERR! need auth You need to authorize this machine using `npm adduser`
+
+npm ERR! Please include the following file with any support request:
+npm ERR!     /home/ubuntu/workspace/npm-debug.log
+cannelflow1:~/workspace $ npm adduser
+Username: cannelflow
+Password: 
+Email: (this IS public) cac@gmail.com
+Logged in as cannelflow on http://localhost:15443/.
+cannelflow1:~/workspace $ npm whoami
+cannelflow
+cannelflow1:~/workspace $ how-to-npm verify
+Congratulations, cannelflow!
+You are the proud owner of an imaginary new npm account!
+Use it wisely.  Never in anger.  Always for the Good.
+
+With this sweet power comes much responsibility, which is
+sufficiently different from Spiderman's thing that Marvel
+hopefully won't sue us.
+
+Excelsior!
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@     YOUR SOLUTION IS CORRECT!     @@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
