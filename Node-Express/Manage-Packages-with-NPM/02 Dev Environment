@@ -1,0 +1,23 @@
+One of the most important things that npm does is install packages.
+
+However, in order to be a good workshop program, we don't want to litter
+files all over your computer, so before going any further, let's set up a
+development environment.
+
+Make a new directory and `cd` into it.
+
+Run `how-to-npm verify` once you're done.  All the other commands
+you run in this tutorial should be done in that folder.
+cannelflow1:~/workspace $ how-to-npm verify
+Congratulations!
+You have a development environment.
+
+From here on out, make sure to run the workshop in this dir
+
+You might notice that a `.npmrc` file will show up in there.
+That normaly would not be required, but the workshop uses it
+to mock out the parts that would normally talk to the internet.
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@     YOUR SOLUTION IS CORRECT!     @@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
