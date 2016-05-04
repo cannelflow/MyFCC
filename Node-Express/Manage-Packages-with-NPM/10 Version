@@ -1,0 +1,89 @@
+Every package in npm has a version number associated with it.  As
+you release updates to your package, these updates get an updated
+version number.
+
+Version numbers in npm follow a standard called "SemVer".  This stands
+for "Semantic Version".  The specification for this standard can be
+found at http://semver.org.
+
+The tl;dr version is that for a version like this:
+
+  1.2.3
+  ^ ^ ^
+  | | `-- Patch version. Update for every change.
+  | `---- Minor version. Update for API additions.
+  `------ Major version. Update for breaking API changes.
+
+npm has a special command called `npm version` which will update your
+package.json file for you, and also commit the change to git if your
+project is a git repository.  You can learn more at `npm help version`.
+
+Or, if you don't trust the machines, you can open up your package.json
+file by hand, and put some new numbers in the "version" field.
+
+The npm registry won't let you publish a new release of your package
+without updating the version number!  Ever!  So, get used to the idea of
+bumping the version whenever you want to publish, even if the change is
+really minor.
+
+Don't worry, there's a lot of integers, we probably won't run out.
+
+Update your version number now, and then `how-to-npm verify` to check it.
+
+cannelflow1:~/workspace $ npm version
+{ '@cannelflow/workspace': '1.0.0',
+  npm: '3.8.8',
+  ares: '1.10.1-DEV',
+  http_parser: '2.5.2',
+  icu: '56.1',
+  modules: '46',
+  node: '4.4.3',
+  openssl: '1.0.2g',
+  uv: '1.8.0',
+  v8: '4.5.103.35',
+  zlib: '1.2.8' }
+cannelflow1:~/workspace $ npm version
+{ '@cannelflow/workspace': '1.0.1',
+  npm: '3.8.8',
+  ares: '1.10.1-DEV',
+  http_parser: '2.5.2',
+  icu: '56.1',
+  modules: '46',
+  node: '4.4.3',
+  openssl: '1.0.2g',
+  uv: '1.8.0',
+  v8: '4.5.103.35',
+  zlib: '1.2.8' }
+cannelflow1:~/workspace $ npm publish
+npm ERR! publish Failed PUT undefined
+npm ERR! Linux 4.2.0-c9
+npm ERR! argv "/home/ubuntu/.nvm/versions/node/v4.4.3/bin/node" "/home/ubuntu/.nvm/versions/node/v4.4.3/bin/npm" "publish"
+npm ERR! node v4.4.3
+npm ERR! npm  v3.8.8
+npm ERR! code ECONNREFUSED
+npm ERR! errno ECONNREFUSED
+npm ERR! syscall connect
+
+npm ERR! Error: connect ECONNREFUSED 127.0.0.1:15443
+npm ERR!     at Object.exports._errnoException (util.js:870:11)
+npm ERR!     at exports._exceptionWithHostPort (util.js:893:20)
+npm ERR!     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1061:14)
+npm ERR!  { [Error: connect ECONNREFUSED 127.0.0.1:15443]
+npm ERR!   code: 'ECONNREFUSED',
+npm ERR!   errno: 'ECONNREFUSED',
+npm ERR!   syscall: 'connect',
+npm ERR!   address: '127.0.0.1',
+npm ERR!   port: 15443 }
+npm ERR! 
+npm ERR! If you are behind a proxy, please make sure that the
+npm ERR! 'proxy' config is set properly.  See: 'npm help config'
+
+npm ERR! Please include the following file with any support request:
+npm ERR!     /home/ubuntu/workspace/npm-debug.log
+cannelflow1:~/workspace $ how-to-npm verify
+Great job!
+Run `how-to-npm` for the next exciting challenge!
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@     YOUR SOLUTION IS CORRECT!     @@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
