@@ -74,4 +74,13 @@ Your submission results compared to the expected:
    
  ─────────────────────────────────────────────────────────────────────────────  
   You have 10 challenges left. Type 'learnyounode' to show the menu.  
-   
+
+   Let's go through this.
+
+var lines: new variable.
+contents.toString(): converts the array contents into a string.
+.split('\n'): Split this string back into an array, each split should be at a newline (using the newline character '\n').
+.length: Return the length of the array.
+-1: Deduct 1 from the result as the length will be 1 more than the number f newline characters as stated in the hints.
+Finally you can console.log(lines).
+
