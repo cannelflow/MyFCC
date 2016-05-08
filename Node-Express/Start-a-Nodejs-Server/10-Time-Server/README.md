@@ -1,6 +1,4 @@
-Write a TCP time server!  
-   
-  Your server should listen to TCP connections on the port provided by the  
+Your server should listen to TCP connections on the port provided by the  
   first argument to your program. For each connection you must write the  
   current date & 24 hour time in the format:  
    
@@ -79,4 +77,48 @@ Write a TCP time server!
    » To execute your program in a test environment, run: learnyounode run                                                                            
      program.js                                                                  
    » To verify your program, run: learnyounode verify program.js                 
-   » For help run: learnyounode help                                 
+   » For help run: learnyounode help                                             
+   
+cannelflow1:~/workspace $ learnyounode verify program.js
+
+Your submission results compared to the expected:
+
+                 ACTUAL                                 EXPECTED                
+────────────────────────────────────────────────────────────────────────────────
+
+   "2016-05-08 10:19"                  ==    "2016-05-08 10:19"                 
+   ""                                  ==    ""                                 
+
+────────────────────────────────────────────────────────────────────────────────
+
+  ✓  Submission results match expected  
+   
+  # PASS Your solution to TIME SERVER passed!  
+   
+  Here's the official solution in case you want to compare notes:  
+   
+ ─────────────────────────────────────────────────────────────────────────────  
+   
+     var net = require('net')  
+       
+     function zeroFill(i) {  
+       return (i < 10 ? '0' : '') + i  
+     }  
+       
+     function now () {  
+       var d = new Date()  
+       return d.getFullYear() + '-'  
+         + zeroFill(d.getMonth() + 1) + '-'  
+         + zeroFill(d.getDate()) + ' '  
+         + zeroFill(d.getHours()) + ':'  
+         + zeroFill(d.getMinutes())  
+     }  
+       
+     var server = net.createServer(function (socket) {  
+       socket.end(now() + '\n')  
+     })  
+       
+     server.listen(Number(process.argv[2]))  
+   
+ ─────────────────────────────────────────────────────────────────────────────  
+  You have 3 challenges left. Type 'learnyounode' to show the menu.  
