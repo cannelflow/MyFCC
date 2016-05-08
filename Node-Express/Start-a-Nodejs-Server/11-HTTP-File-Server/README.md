@@ -1,4 +1,4 @@
- Write an HTTP server that serves the same text file for each request it  
+Write an HTTP server that serves the same text file for each request it  
   receives.  
    
   Your server should listen on the port provided by the first argument to  
@@ -62,4 +62,41 @@
      program.js                                                                  
    » To verify your program, run: learnyounode verify program.js                 
    » For help run: learnyounode help                                             
+   
+cannelflow1:~/workspace $ learnyounode verify program.js
+
+Your submission results compared to the expected:
+
+────────────────────────────────────────────────────────────────────────────────
+
+1.  ACTUAL:    "As cross as a paddock when he hasn't got a fruit loop. As cross as a sheila to she'll be right arvo."
+1.  EXPECTED:  "As cross as a paddock when he hasn't got a fruit loop. As cross as a sheila to she'll be right arvo."
+
+2.  ACTUAL:    ""
+2.  EXPECTED:  ""
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+  ✓  Submission results match expected  
+   
+  # PASS Your solution to HTTP FILE SERVER passed!  
+   
+  Here's the official solution in case you want to compare notes:  
+   
+ ─────────────────────────────────────────────────────────────────────────────  
+   
+     var http = require('http')  
+     var fs = require('fs')  
+       
+     var server = http.createServer(function (req, res) {  
+       res.writeHead(200, { 'content-type': 'text/plain' })  
+       
+       fs.createReadStream(process.argv[3]).pipe(res)  
+     })  
+       
+     server.listen(Number(process.argv[2]))  
+   
+ ─────────────────────────────────────────────────────────────────────────────  
+  You have 2 challenges left. Type 'learnyounode' to show the menu.  
    
