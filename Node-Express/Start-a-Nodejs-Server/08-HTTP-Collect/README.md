@@ -73,4 +73,58 @@ Write a program that performs an HTTP GET request to a URL provided to you
    » To execute your program in a test environment, run: learnyounode run                                                                            
      program.js                                                                  
    » To verify your program, run: learnyounode verify program.js                 
-   » For help run: learnyounode help                                
+   » For help run: learnyounode help                                             
+   
+cannelflow1:~/workspace $ npm install bl
+npm WARN package.json chat-example@0.0.0 No repository field.
+npm WARN package.json chat-example@0.0.0 No license field.
+bl@1.1.2 node_modules/bl
+└── readable-stream@2.0.6 (string_decoder@0.10.31, util-deprecate@1.0.2, inherits@2.0.1, core-util-is@1.0.2, process-nextick-args@1.0.7, isarray@1.0.0)
+cannelflow1:~/workspace $ npm install bl --save
+npm WARN package.json chat-example@0.0.0 No repository field.
+npm WARN package.json chat-example@0.0.0 No license field.
+bl@1.1.2 node_modules/bl
+└── readable-stream@2.0.6 (string_decoder@0.10.31, process-nextick-args@1.0.7, inherits@2.0.1, util-deprecate@1.0.2, core-util-is@1.0.2, isarray@1.0.0)
+cannelflow1:~/workspace $ learnyounode verify program.js
+
+Your submission results compared to the expected:
+
+────────────────────────────────────────────────────────────────────────────────
+
+1.  ACTUAL:    "379"
+1.  EXPECTED:  "379"
+
+2.  ACTUAL:    "Watch out for the yakka no worries watch out for the bities. You little ripper rollie mate as busy as a top end. As dry as a gutta piece of piss as stands out like bingle. Stands out like a esky my he's got a massive freo. Lets get some flake no worries get a dog up ya ratbag."
+2.  EXPECTED:  "Watch out for the yakka no worries watch out for the bities. You little ripper rollie mate as busy as a top end. As dry as a gutta piece of piss as stands out like bingle. Stands out like a esky my he's got a massive freo. Lets get some flake no worries get a dog up ya ratbag."
+
+3.  ACTUAL:    "He's got a massive moolah how as cross as a greenie. Come a brizzie heaps trent from punchy bail up. "
+3.  EXPECTED:  "He's got a massive moolah how as cross as a greenie. Come a brizzie heaps trent from punchy bail up. "
+
+4.  ACTUAL:    ""
+4.  EXPECTED:  ""
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+  ✓  Submission results match expected  
+   
+  # PASS Your solution to HTTP COLLECT passed!  
+   
+  Here's the official solution in case you want to compare notes:  
+   
+ ─────────────────────────────────────────────────────────────────────────────  
+   
+     var http = require('http')  
+     var bl = require('bl')  
+       
+     http.get(process.argv[2], function (response) {  
+       response.pipe(bl(function (err, data) {  
+         if (err)  
+           return console.error(err)  
+         data = data.toString()  
+         console.log(data.length)  
+         console.log(data)  
+       }))    
+     })  
+   
+ ─────────────────────────────────────────────────────────────────────────────  
