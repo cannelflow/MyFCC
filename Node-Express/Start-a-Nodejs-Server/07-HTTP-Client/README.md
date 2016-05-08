@@ -1,4 +1,4 @@
-Write a program that performs an HTTP GET request to a URL provided to you  
+ Write a program that performs an HTTP GET request to a URL provided to you  
   as the first command-line argument. Write the String contents of each  
   "data" event from the response to a new line on the console (stdout).  
    
@@ -41,4 +41,43 @@ Write a program that performs an HTTP GET request to a URL provided to you
    » To execute your program in a test environment, run: learnyounode run                                                                            
      program.js                                                                  
    » To verify your program, run: learnyounode verify program.js                 
-   » For help run: learnyounode help                         
+   » For help run: learnyounode help                                             
+   
+cannelflow1:~/workspace $ learnyounode verify program.js
+
+Your submission results compared to the expected:
+
+                 ACTUAL                                 EXPECTED                
+────────────────────────────────────────────────────────────────────────────────
+
+   "Muster"                            ==    "Muster"                           
+   "Cane toad"                         ==    "Cane toad"                        
+   "Kindie"                            ==    "Kindie"                           
+   "Going off"                         ==    "Going off"                        
+   "Sunnies"                           ==    "Sunnies"                          
+   "Clucky"                            ==    "Clucky"                           
+   "Battler"                           ==    "Battler"                          
+   "Dinky-di"                          ==    "Dinky-di"                         
+   "Vee dub"                           ==    "Vee dub"                          
+   "Jillaroo"                          ==    "Jillaroo"                         
+   ""                                  ==    ""                                 
+
+────────────────────────────────────────────────────────────────────────────────
+
+  ✓  Submission results match expected  
+   
+  # PASS Your solution to HTTP CLIENT passed!  
+   
+  Here's the official solution in case you want to compare notes:  
+   
+ ─────────────────────────────────────────────────────────────────────────────  
+   
+     var http = require('http')  
+       
+     http.get(process.argv[2], function (response) {  
+       response.setEncoding('utf8')  
+       response.on('data', console.log)  
+       response.on('error', console.error)  
+     }).on('error', console.error)  
+   
+ ─────────────────────────────────────────────────────────────────────────────  
