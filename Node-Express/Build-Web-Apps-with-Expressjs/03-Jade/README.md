@@ -47,3 +47,35 @@ Again, the port to use is passed by expressworks to the application as process.a
  » To execute your program in a test environment, run: expressworks run program.js
  » To verify your program, run: expressworks verify program.js
  » For help run: expressworks help
+
+
+cannelflow1:~/workspace $ expressworks verify program.js
+
+Your submission results compared to the expected:
+
+                 ACTUAL                                 EXPECTED                
+────────────────────────────────────────────────────────────────────────────────
+
+   "<h1>Hello World</h1><p>Today is Sun May 08 2016.</p>" ==    "<h1>Hello World</h1><p>Today is Sun May 08 2016.</p>"
+
+────────────────────────────────────────────────────────────────────────────────
+
+✓ Submission results match expected
+
+# PASS
+
+Your solution to JADE passed!
+
+Here's the official solution in case you want to compare notes:
+
+────────────────────────────────────────────────────────────────────────────────
+    var express = require('express')
+    var app = express()
+    app.set('view engine', 'jade')
+    app.set('views', process.argv[3])
+    app.get('/home', function(req, res) {
+      res.render('index', {date: new Date().toDateString()})
+    })
+    app.listen(process.argv[2])
+
+────────────────────────────────────────────────────────────────────────────────
