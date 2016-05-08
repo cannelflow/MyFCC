@@ -1,4 +1,4 @@
- Write an HTTP server that receives only POST requests and converts  
+Write an HTTP server that receives only POST requests and converts  
   incoming POST body characters to upper-case and returns it to the client.  
    
   Your server should listen on the port provided by the first argument to  
@@ -54,3 +54,57 @@
      program.js                                                                  
    » To verify your program, run: learnyounode verify program.js                 
    » For help run: learnyounode help                                             
+   
+cannelflow1:~/workspace $ npm install through2-map --save
+npm WARN package.json chat-example@0.0.0 No repository field.
+npm WARN package.json chat-example@0.0.0 No license field.
+through2-map@2.0.0 node_modules/through2-map
+├── xtend@4.0.1
+└── through2@2.0.1 (readable-stream@2.0.6)
+cannelflow1:~/workspace $ leranyounode verify program.js
+bash: leranyounode: command not found
+cannelflow1:~/workspace $ learnyounode verify program.js
+
+Your submission results compared to the expected:
+
+                 ACTUAL                                 EXPECTED                
+────────────────────────────────────────────────────────────────────────────────
+
+   "HIT THE TURPS"                     ==    "HIT THE TURPS"                    
+   "SPAG BOL"                          ==    "SPAG BOL"                         
+   "PADDOCK"                           ==    "PADDOCK"                          
+   "DEADSET"                           ==    "DEADSET"                          
+   "SLABS"                             ==    "SLABS"                            
+   "RAGE ON"                           ==    "RAGE ON"                          
+   "FAIR DINKUM"                       ==    "FAIR DINKUM"                      
+   "KNOCK"                             ==    "KNOCK"                            
+   "YOUR SHOUT"                        ==    "YOUR SHOUT"                       
+   "THINGO"                            ==    "THINGO"                           
+   ""                                  ==    ""                                 
+
+────────────────────────────────────────────────────────────────────────────────
+
+  ✓  Submission results match expected  
+   
+  # PASS Your solution to HTTP UPPERCASERER passed!  
+   
+  Here's the official solution in case you want to compare notes:  
+   
+ ─────────────────────────────────────────────────────────────────────────────  
+   
+     var http = require('http')  
+     var map = require('through2-map')  
+       
+     var server = http.createServer(function (req, res) {  
+       if (req.method != 'POST')  
+         return res.end('send me a POST\n')  
+       
+       req.pipe(map(function (chunk) {  
+         return chunk.toString().toUpperCase()  
+       })).pipe(res)  
+     })  
+       
+     server.listen(Number(process.argv[2]))  
+   
+ ─────────────────────────────────────────────────────────────────────────────  
+  You have one challenge left. Type 'learnyounode' to show the menu. 
