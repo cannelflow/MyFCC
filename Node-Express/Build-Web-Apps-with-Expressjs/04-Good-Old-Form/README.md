@@ -1,10 +1,3 @@
-Write a route ('/form') that processes HTML form input
-(<form><input name="str"/></form>) and prints backwards the str value.
-
--------------------------------------------------------------------------------
-
-## HINTS
-
 To handle POST request use the post() method which is used the same way as get():
 
     app.post('/path', function(req, res){...})
@@ -57,3 +50,38 @@ Again, the port to use is passed expressworks to the application as process.argv
  » To verify your program, run: expressworks verify program.js
  » For help run: expressworks help
 
+
+cannelflow1:~/workspace $ expressworks verify program.js
+Mon, 09 May 2016 04:26:29 GMT body-parser deprecated undefined extended: provide extended option at program.js:41:20
+
+Your submission results compared to the expected:
+
+                 ACTUAL                                 EXPECTED                
+────────────────────────────────────────────────────────────────────────────────
+
+   "Express.js rocks!"                 ==    "Express.js rocks!"                
+
+────────────────────────────────────────────────────────────────────────────────
+
+✓ Submission results match expected
+
+# PASS
+
+Your solution to GOOD OLD FORM passed!
+
+Here's the official solution in case you want to compare notes:
+
+────────────────────────────────────────────────────────────────────────────────
+    var express = require('express')
+    var bodyParser = require('body-parser')
+    var app = express()
+    
+    app.use(bodyParser.urlencoded({extended: false}))
+    
+    app.post('/form', function(req, res) {
+      res.send(req.body.str.split('').reverse().join(''))
+    })
+    
+    app.listen(process.argv[2])
+
+────────────────────────────────────────────────────────────────────────────────
