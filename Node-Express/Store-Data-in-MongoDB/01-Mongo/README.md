@@ -21,3 +21,11 @@ It should print out something similar to:
 » To run your program, run: learnyoumongo run [solution.js]
 » To verify your program, run: learnyoumongo verify [solution.js]
 » For help run: learnyoumongo help
+
+
+cannelflow1:~/workspace $ learnyoumongo verify solution.js
+✓ mongod v2.6.12
+
+# PASS
+
+Your solution to MONGOD passed!
