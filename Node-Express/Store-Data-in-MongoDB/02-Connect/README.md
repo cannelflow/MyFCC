@@ -1,9 +1,3 @@
-Start mongod on port 27017 with data as the dbpath
-
--------------------------------------------------------------------------------
-
-## HINTS
-
 You may have to create the data directory.
 
     mkdir data
@@ -22,3 +16,17 @@ be used for the remainder of the exercise.
 » To run your program, run: learnyoumongo run [solution.js]
 » To verify your program, run: learnyoumongo verify [solution.js]
 » For help run: learnyoumongo help
+
+
+cannelflow1:~/workspace $ sed -i".bak" '/mongod/d' ~/.bash_aliases
+cannelflow1:~/workspace $ cat ~/.bash_aliases | grep mongod
+cannelflow1:~/workspace $ source ~/.bash_aliases
+cannelflow1:~/workspace $ learnyoumongo verify
+✓ Successfully connected to MongoDB
+
+# PASS
+
+Your solution to CONNECT passed!
+
+You have 7 challenges left.
+Type 'learnyoumongo' to show the menu.
